@@ -1,0 +1,577 @@
+[meta title:"Coastline Example" description:"Coastline styling example" /]
+
+[var name:"aanuit" value:true /]
+[derived name:"colorLight" value:`aanuit ? "#D5DADB" : "#E6E8E4"  `/]
+[derived name:"colorMiddle" value:`aanuit ? "#B2BFC7" : "#D5DADB"  `/]
+[derived name:"colorDark" value:`aanuit ? "#6D87A0" : "#C3CCD1"  `/]
+
+[var name:"colorBackground" value:"#f2f2f2" /]
+[var name:"stupidOpacity" value:0.5 /]
+[var name:"bitOfBlur" value:10 /]
+[var name:"visibilityWater" value:'none' /]
+
+[derived name:'mapstyle1'  value: `{
+  version: 8,
+  name: 'General coastline example',
+  glyphs: 'https://ta.webmapper.nl/wm/glyphs/{fontstack}/{range}.pbf',
+  sprite: 'https://ta.webmapper.nl/wm/sprites/nimh_sprite',
+  sources: {
+    wm_visdata: {
+      type: 'vector',
+      url: 'https://ta.webmapper.nl/wm/styles/nimh_tile.json'
+    }
+  },
+  layers: [
+    {
+      id: 'background_fill_color',
+      type: 'background',
+      paint: {
+        'background-color': colorBackground
+      }
+    },
+    {
+      id: 'coastline_001-biggest',
+      source: 'wm_visdata',
+      'source-layer': 'countries',
+      type: 'line',
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round',
+        'line-round-limit': 1
+      },
+      paint: {
+        'line-color': colorLight,
+        'line-width': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          1,
+          0,
+          14,
+          550
+        ],
+        'line-blur': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          1,
+          0,
+          14,
+          bitOfBlur
+        ],
+        'line-opacity': stupidOpacity
+      }
+    },
+    {
+      id: 'coastline_002-middle',
+      source: 'wm_visdata',
+      'source-layer': 'countries',
+      type: 'line',
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round',
+        'line-round-limit': 1
+      },
+      paint: {
+        'line-color': colorMiddle,
+        'line-width': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          1,
+          0,
+          14,
+          350
+        ],
+        'line-blur': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          1,
+          0,
+          14,
+          bitOfBlur
+        ],
+        'line-opacity': stupidOpacity
+      }
+    },
+    {
+      id: 'coastline_003-small',
+      source: 'wm_visdata',
+      'source-layer': 'countries',
+      type: 'line',
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round',
+        'line-round-limit': 1
+      },
+      paint: {
+        'line-color': colorDark,
+        'line-width': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          1,
+          0,
+          14,
+          150
+        ],
+        'line-blur': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          1,
+          0,
+          14,
+          bitOfBlur
+        ],
+        'line-opacity': stupidOpacity
+      }
+    },
+    {
+      id: 'coastline_004',
+      source: 'wm_visdata',
+      'source-layer': 'countries',
+      type: 'line',
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round',
+        'line-round-limit': 2
+      },
+      paint: {
+        'line-pattern': 'riverhazebig',
+        'line-width': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          6.9,
+          0,
+          7,
+          1,
+          16,
+          75
+        ]
+      }
+    },
+    {
+      id: 'water_area',
+      type : 'background',
+      layout: {
+        visibility: visibilityWater
+      },
+      paint: {
+        'background-pattern': 'water'
+      }
+    },
+    {
+      id: 'coastline_005',
+      source: 'wm_visdata',
+      'source-layer': 'countries',
+      type: 'line',
+      paint: {
+        'line-color': '#6d87a0',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 0, 0.5, 14, 4],
+        'line-offset': ['interpolate', ['linear'], ['zoom'], 5, 0, 14, -1]
+      }
+    },
+    {
+      id: 'countries-fill',
+      source: 'wm_visdata',
+      'source-layer': 'countries',
+      type: 'fill',
+      paint: {
+        'fill-color': '#e7e1c9'
+      }
+    },
+    {
+      id: 'place-points001',
+      type: 'circle',
+      source: 'wm_visdata',
+      'source-layer': 'place',
+      filter: ['<=', ['get', 'scalerank'], 7],
+      minzoom: 5,
+      paint: {
+        'circle-pitch-scale': 'viewport',
+        'circle-pitch-alignment': 'map',
+        'circle-radius': [
+          'interpolate',
+          ['exponential', 0.9],
+          ['get', 'scalerank'],
+          1,
+          12,
+          15,
+          7.5
+        ],
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#ddd9cc',
+        'circle-color': 'rgba(0,0,0,0)'
+      }
+    },
+    {
+      id: 'rivers001',
+      source: 'wm_visdata',
+      'source-layer': 'rivers',
+      type: 'line',
+      minzoom: 7,
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round',
+        'line-round-limit': 2
+      },
+      paint: {
+        'line-pattern': 'riverhazebig',
+        'line-width': [
+          'interpolate',
+          ['exponential', 1.3],
+          ['zoom'],
+          7,
+          0,
+          7.1,
+          1,
+          16,
+          [
+            'interpolate',
+            ['exponential', 1.1],
+            ['get', 'scalerank'],
+            4,
+            75,
+            12,
+            35
+          ]
+        ]
+      }
+    },
+    {
+      id: 'rivers002',
+      source: 'wm_visdata',
+      'source-layer': 'rivers',
+      type: 'line',
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round',
+        'line-round-limit': 2
+      },
+      paint: {
+        'line-color': '#6D87A0',
+        'line-width': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          2,
+          0,
+          5,
+          1,
+          16,
+          [
+            'interpolate',
+            ['exponential', 1.1],
+            ['get', 'scalerank'],
+            4,
+            35,
+            12,
+            10
+          ]
+        ],
+        'line-opacity': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          0,
+          0,
+          5,
+          0.8,
+          16,
+          1
+        ],
+        'line-blur': ['interpolate', ['linear'], ['zoom'], 5, 0.2, 16, 0.5]
+      }
+    },
+    {
+      id: 'rivers003',
+      source: 'wm_visdata',
+      'source-layer': 'rivers',
+      type: 'line',
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round',
+        'line-round-limit': 2
+      },
+      paint: {
+        'line-color': '#CED3D1',
+        'line-width': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          2,
+          0,
+          5,
+          0.5,
+          16,
+          [
+            'interpolate',
+            ['exponential', 1.1],
+            ['get', 'scalerank'],
+            4,
+            20,
+            12,
+            10
+          ]
+        ],
+        'line-opacity': ['interpolate', ['linear'], ['zoom'], 5, 0.8, 16, 1]
+      }
+    },
+    {
+      id: 'rivers004',
+      source: 'wm_visdata',
+      'source-layer': 'rivers',
+      type: 'line',
+      minzoom: 7,
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round',
+        'line-round-limit': 2
+      },
+      paint: {
+        'line-pattern': 'riverhaze',
+        'line-width': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          2,
+          0,
+          6,
+          0,
+          7,
+          0,
+          7.5,
+          1,
+          16,
+          [
+            'interpolate',
+            ['exponential', 1.1],
+            ['get', 'scalerank'],
+            4,
+            75,
+            12,
+            36
+          ]
+        ]
+      }
+    },
+    {
+      id: 'place-points',
+      type: 'circle',
+      source: 'wm_visdata',
+      'source-layer': 'place',
+      minzoom: 5,
+      paint: {
+        'circle-pitch-scale': 'viewport',
+        'circle-pitch-alignment': 'map',
+        'circle-radius': [
+          'interpolate',
+          ['exponential', 0.9],
+          ['get', 'scalerank'],
+          1,
+          6,
+          15,
+          2
+        ],
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#c6c3b7',
+        'circle-color': '#f5f3e9',
+        'circle-opacity': [
+          'interpolate',
+          ['linear'],
+          ['get', 'scalerank'],
+          0,
+          0.7,
+          10,
+          0.2
+        ]
+      }
+    },
+
+    {
+      id: 'countries_sprite',
+      source: 'wm_visdata',
+      'source-layer': 'countries',
+      type: 'fill',
+      paint: {
+        'fill-pattern': 'paper'
+      }
+    },
+    {
+      id: 'place-labels',
+      type: 'symbol',
+      source: 'wm_visdata',
+      'source-layer': 'place',
+      minzoom: 7,
+      filter: ['>', ['get', 'scalerank'], 4],
+      layout: {
+        'text-optional': true,
+        'text-allow-overlap': false,
+        'text-padding': 6,
+        'text-radial-offset': 0.1,
+        'text-variable-anchor': ['left', 'top', 'bottom', 'right'],
+        'text-size': [
+          'interpolate',
+          ['exponential', 0.9],
+          ['get', 'scalerank'],
+          5,
+          20,
+          20,
+          12
+        ],
+        'text-font': ['DosisLight'],
+        'text-field': '{name}',
+        'text-rotation-alignment': 'viewport'
+      },
+      paint: {
+        'text-color': [
+          'interpolate',
+          ['exponential', 0.9],
+          ['get', 'scalerank'],
+          1,
+          '#4c4346',
+          20,
+          '#a5a1a2'
+        ],
+        'text-halo-width': 3,
+        'text-halo-color': 'rgba(231,225,201,0.6)',
+        'text-halo-blur': 0.1
+      }
+    },
+    {
+      id: 'countries-inline',
+      source: 'wm_visdata',
+      'source-layer': 'countries',
+      type: 'line',
+      layout: {
+        visibility: 'visible',
+        'line-cap': 'round',
+        'line-join': 'round',
+        'line-round-limit': 2
+      },
+      paint: {
+        'line-color': '#e6e1d0',
+        'line-width': [
+          'interpolate',
+          ['exponential', 1.2],
+          ['zoom'],
+          0,
+          0.1,
+          5,
+          1,
+          16,
+          15
+        ],
+        'line-offset': ['interpolate', ['linear'], ['zoom'], 5, 0, 14, 3],
+        'line-blur': ['interpolate', ['linear'], ['zoom'], 5, 0, 14, 1]
+      }
+    },
+    {
+      id: 'place--high',
+      type: 'symbol',
+      source: 'wm_visdata',
+      'source-layer': 'place',
+      minzoom: 4,
+      filter: ['<=', ['get', 'scalerank'], 4],
+      layout: {
+        'text-allow-overlap': true,
+        'text-padding': 6,
+        'text-radial-offset': 0.1,
+        'text-variable-anchor': ['left', 'top', 'bottom', 'right'],
+        'text-transform': [
+          'case',
+          ['<=', ['get', 'scalerank'], 3],
+          'uppercase',
+          'none'
+        ],
+        'text-size': [
+          'interpolate',
+          ['exponential', 0.9],
+          ['get', 'scalerank'],
+          1,
+          22,
+          4,
+          20
+        ],
+        'text-font': ['DosisLight'],
+        'text-field': '{name}',
+        'text-rotation-alignment': 'viewport'
+      },
+      paint: {
+        'text-color': '#4c4346',
+        'text-halo-width': 3,
+        'text-halo-color': 'rgba(231,225,201,0.6)',
+        'text-halo-blur': 0.1
+      }
+    },
+    {
+      id: 'background-on-top',
+      type: 'background',
+      paint: {
+        'background-pattern': 'papergrain',
+        'background-opacity': 0.8
+      }
+    }
+  ]
+}` /]
+
+
+
+[Float position:"left" height:700]
+
+ 
+
+[div  style:`{background: '#F7F6EE', width: 75, height: 35}` ] Land [/div]
+
+ 1. Inner line | [Display value:colorDark /] | 50 pixels 
+[div  style:`{background: colorDark, width: 50, height: 35}` /] 
+ 2. Middle line |  [Display value:colorMiddle /]  | 100 pixels 
+[div  style:`{background: colorMiddle, width: 100, height:35}` /] 
+ 3. Outer line |  [Display value:colorLight /] | 150 pixels 
+[div  style:`{background: colorLight, width: 150, height: 35}` /]
+
+
+[div  style:`{background: '#6D87A0', width: 75, height: 35}`] Water [/div]
+
+
+The opacity of the lines: [Display value:stupidOpacity /]
+[Range value:stupidOpacity min:0.0 max:1.0 step:0.1 /]
+
+
+The blur of the lines: [Display value:bitOfBlur /]
+[Range value:bitOfBlur min:0 max:200 step:10 /]
+
+
+Blend the colors better:   [Boolean value:aanuit /]
+[link text:"Color Blender" url:"https://meyerweb.com/eric/tools/color-blend/#F7F6EE:6D87A0:7:hex" /]
+
+
+Display the water dots!
+[Radio value:visibilityWater options:`["none", "visible"]` /]
+
+[/Float]
+
+[Float position:"right"]
+  [ReactMapGL name:'MyMap' 
+    width: 600
+    height:800
+    latitude: 52.36698
+    longitude:4.91095
+    zoom:7
+    mapStyle: mapstyle1
+    interactive: true
+    dragPan: true
+    dragRotate: true
+    scrollZoom: true
+    touchZoom: true
+    touchRotate: true
+    keyboard: true
+    doubleClickZoom: true
+  /]
+
+[/Float]
+
+
