@@ -520,9 +520,12 @@
 
 
 
-[Float position:"left" height:700]
+[Float  position:"left" height:700 ]
 
- 
+# Styling coastlines
+
+
+### Colors
 
 [div  style:`{background: '#F7F6EE', width: 75, height: 35}` ] Land [/div]
 
@@ -533,43 +536,32 @@
  3. Outer line |  [Display value:colorLight /] | 150 pixels 
 [div  style:`{background: colorLight, width: 150, height: 35}` /]
 
-
 [div  style:`{background: '#6D87A0', width: 75, height: 35}`] Water [/div]
 
 
-The opacity of the lines: [Display value:stupidOpacity /]
-[Range value:stupidOpacity min:0.0 max:1.0 step:0.1 /]
+### Styling 
+The opacity of the lines:     [Display value:stupidOpacity /]   [Range value:stupidOpacity min:0.0 max:1.0 step:0.1 /]
 
 
-The blur of the lines: [Display value:bitOfBlur /]
-[Range value:bitOfBlur min:0 max:200 step:10 /]
+The blur of the lines:     [Display value:bitOfBlur /]   [Range value:bitOfBlur min:0 max:200 step:10 /]
 
 
 Blend the colors better:   [Boolean value:aanuit /]
-[link text:"Color Blender" url:"https://meyerweb.com/eric/tools/color-blend/#F7F6EE:6D87A0:7:hex" /]
 
+Checkout the [link text:"Color Blender" url:"https://meyerweb.com/eric/tools/color-blend/#F7F6EE:6D87A0:7:hex" /] tool!
+[br/]
+[br/]
 
-Display the water dots!
+Display the water dots:
+
 [Radio value:visibilityWater options:`["none", "visible"]` /]
 
 [/Float]
 
 [Float position:"right"]
-  [ReactMapGL name:'MyMap' 
-    width: 600
-    height:800
-    latitude: 52.36698
-    longitude:4.91095
-    zoom:7
+  
+  [CustomMap name:'MyMap' 
     mapStyle: mapstyle1
-    interactive: true
-    dragPan: true
-    dragRotate: true
-    scrollZoom: true
-    touchZoom: true
-    touchRotate: true
-    keyboard: true
-    doubleClickZoom: true
   /]
 
 [/Float]

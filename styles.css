@@ -9,3 +9,28 @@
     max-height: 200px;
   }
 }
+
+
+body{
+  padding:0px !important;
+  margin:0px  !important;
+  overflow: hidden !important;
+}
+
+.idyll-text-container {
+    max-width: 90vw !important;
+}
+.idyll-root {
+  box-sizing: border-box;
+  padding:0px !important;
+  margin:0px  !important;
+  max-width: 90vw !important;
+}
+
+.left{
+  padding: 40px;
+}
+
+input{
+  margin: 0;
+}
